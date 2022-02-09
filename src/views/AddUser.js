@@ -1,4 +1,4 @@
-import React, { useState, useContext, useReducer } from 'react';
+import React, { useState, useContext, useReducer, useEffect, useCallback } from 'react';
 import FormField from 'components/molecules/FormField/FormField';
 // import { Button } from 'components/atoms/Button/Button';
 import { ViewWrapper } from 'components/molecules/ViewWrapper/ViewWrapper';
@@ -45,6 +45,14 @@ const reducer = (state, action) => {
   }
 };
 
+const ChildComponent = ({ somefunc }) => {
+  useEffect(() => {
+    console.log(somefunc());
+  }, [somefunc]);
+
+  return 'grazyna';
+};
+
 const AddUser = () => {
   const [formValues, dispatch] = useReducer(reducer, initialFormState);
   //   const [formValues, setFormValues] = useState(initialFormState);
@@ -72,8 +80,12 @@ const AddUser = () => {
     }
   };
 
+  //   const someFunction = () => 'grazyna'; //wykonuje sie x razy
+  const someFunction = useCallback(() => 'grazyna', []); //nie wykonuje sie juz
+
   return (
     <ViewWrapper as="form" onSubmit={handleSubmitUser}>
+      <ChildComponent somefunc={someFunction} />
       <Title>Add new student </Title>
       <FormField label="Name" id="name" name="name" value={formValues.name} onChange={handleInputChange} />
       <FormField label="Attendance" id="attendance" name="attendance" value={formValues.attendance} onChange={handleInputChange} />
