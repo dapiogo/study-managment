@@ -14,21 +14,28 @@ const initialFormState = {
   error: '',
 };
 
+const actionValues = {
+  inputChange: 'INPUT_CHANGE',
+  reset: 'RESET',
+  consent: 'CONSENT',
+  throwError: 'THROW_ERROR',
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'INPUT_CHANGE':
+    case actionValues.inputChange:
       return {
         ...state,
         [action.field]: action.value,
       };
-    case 'RESET':
+    case actionValues.reset:
       return initialFormState;
-    case 'CONSENT':
+    case actionValues.consent:
       return {
         ...state,
         consent: !state.consent,
       };
-    case 'THROW_ERROR':
+    case actionValues.throwError:
       return {
         ...state,
         error: action.errorValue,
@@ -45,7 +52,7 @@ const AddUser = () => {
 
   const handleInputChange = (e) => {
     dispatch({
-      type: 'INPUT_CHANGE',
+      type: actionValues.inputChange,
       field: e.target.name,
       value: e.target.value,
     });
@@ -59,9 +66,9 @@ const AddUser = () => {
     e.preventDefault();
     if (formValues.consent) {
       context.handleAddUser(formValues);
-      dispatch({ type: 'RESET' });
+      dispatch({ type: actionValues.reset });
     } else {
-      dispatch({ type: 'THROW_ERROR', errorValue: 'You need to check consent' });
+      dispatch({ type: actionValues.throwError, errorValue: 'You need to check consent' });
     }
   };
 
@@ -77,7 +84,7 @@ const AddUser = () => {
         name="consent"
         type="checkbox"
         value={formValues.consent}
-        onChange={() => dispatch({ type: 'CONSENT' })}
+        onChange={() => dispatch({ type: actionValues.consent })}
       />
       <Button type="submit">add</Button>
       {formValues.error ? <p>{formValues.error}</p> : null}
