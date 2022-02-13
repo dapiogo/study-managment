@@ -12,7 +12,7 @@ const UsersList = ({ users }) => {
       <Title>Student list</Title>
       <StyledList>
         {users.map((userData, index) => (
-          <UsersListItem {...userData} index={index} />
+          <UsersListItem {...userData} index={index} key={index} />
         ))}
       </StyledList>
     </>
